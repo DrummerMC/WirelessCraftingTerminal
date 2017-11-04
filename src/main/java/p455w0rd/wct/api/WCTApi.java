@@ -5,7 +5,9 @@ import java.lang.reflect.Method;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import p455w0rd.wct.implementation.WCTInteractionHelper;
 import p455w0rd.wct.init.ModConfig;
+import p455w0rd.wct.init.ModItems;
 
 public abstract class WCTApi {
 
@@ -15,7 +17,7 @@ public abstract class WCTApi {
 	public static WCTApi instance() {
 		if (API == null) {
 			try {
-				Class<?> clazz = Class.forName("net.p455w0rd.wct.implementation.WCTAPIImplementation");
+				Class<?> clazz = Class.forName("p455w0rd.wct.implementation.WCTAPIImplementation");
 				Method instanceAccessor = clazz.getMethod("instance");
 				API = (WCTApi) instanceAccessor.invoke(null);
 			}
@@ -28,10 +30,14 @@ public abstract class WCTApi {
 	}
 
 	@Nonnull
-	public abstract IWCTInteractionHelper interact();
+	public IWCTInteractionHelper interact() {
+		return new WCTInteractionHelper();
+	}
 
 	@Nonnull
-	public abstract IWCTItems items();
+	public IWCTItems items() {
+		return ModItems.instance();
+	}
 
 	public static boolean isInfinityBoosterCardEnabled() {
 		return ModConfig.WCT_BOOSTER_ENABLED;
